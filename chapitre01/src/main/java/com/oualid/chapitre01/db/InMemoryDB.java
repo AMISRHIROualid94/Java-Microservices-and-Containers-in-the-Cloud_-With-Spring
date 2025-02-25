@@ -22,7 +22,7 @@ public class InMemoryDB {
 
     public List<Product> getAllProducts() {
 
-        return new ArrayList<Product>(productDB.values());
+        return new ArrayList<>(productDB.values());
     }
 
     public Product getProduct(String productId) {
