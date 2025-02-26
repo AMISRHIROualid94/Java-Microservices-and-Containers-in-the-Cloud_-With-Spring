@@ -1,6 +1,6 @@
-package com.oualid.chapitre01.db;
+package com.oualid.productweb.db;
 
-import com.oualid.chapitre01.model.Product;
+import com.oualid.productweb.model.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

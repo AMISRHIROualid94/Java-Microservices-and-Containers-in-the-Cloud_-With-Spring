@@ -5,7 +5,17 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/chapitre01/pom.xml" />
+        <option value="$PROJECT_DIR$/ch01_01/pom.xml" />
+        <option value="$PROJECT_DIR$/chapitre_01/ch01_01/product-web/pom.xml" />
+        <option value="$PROJECT_DIR$/ch01-01/pom.xml" />
+        <option value="$PROJECT_DIR$/chapitre01/ch01/ch01-01/pom.xml" />
+        <option value="$PROJECT_DIR$/chapitre01/ch01/ch01-01/02-ProductWeb/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/ch01-01/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_22" default="true" project-jdk-name="corretto-22" project-jdk-type="JavaSDK">

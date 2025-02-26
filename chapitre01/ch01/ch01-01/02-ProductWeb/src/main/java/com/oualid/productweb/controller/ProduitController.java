@@ -1,7 +1,7 @@
-package com.oualid.chapitre01.controller;
+package com.oualid.productweb.controller;
 
-import com.oualid.chapitre01.db.InMemoryDB;
-import com.oualid.chapitre01.model.Product;
+import com.oualid.productweb.db.InMemoryDB;
+import com.oualid.productweb.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

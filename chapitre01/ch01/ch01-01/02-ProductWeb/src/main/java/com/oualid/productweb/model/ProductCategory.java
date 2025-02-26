@@ -1,4 +1,4 @@
-package com.oualid.chapitre01.model;
+package com.oualid.productweb.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

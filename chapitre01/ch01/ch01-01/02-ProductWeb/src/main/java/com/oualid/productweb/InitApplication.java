@@ -1,4 +1,4 @@
-package com.oualid.chapitre01;
+package com.oualid.productweb;
 
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
