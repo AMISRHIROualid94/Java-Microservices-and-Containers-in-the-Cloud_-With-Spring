@@ -6,7 +6,7 @@
         <groupId>ma.oualid</groupId>
         <artifactId>ch02-01</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
     <artifactId>productserver</artifactId>
     <version>0.0.1-SNAPSHOT</version>

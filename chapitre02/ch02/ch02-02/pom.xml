@@ -6,15 +6,19 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.3</version>
+        <relativePath/>
     </parent>
+
     <groupId>ma.oualid</groupId>
-    <artifactId>ch02-01</artifactId>
+    <artifactId>ch02-02</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>ch02-01</name>
-    <description>ch02-01</description>
+    <name>ch02-02</name>
+    <description>ch02-02</description>
+
     <modules>
         <module>01-ProductServer</module>
         <module>02-ProductWeb</module>
     </modules>
+
 </project>

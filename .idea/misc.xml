@@ -12,6 +12,8 @@
         <option value="$PROJECT_DIR$/chapitre01/ch01/ch01-01/02-ProductWeb/pom.xml" />
         <option value="$PROJECT_DIR$/chapitre02/ch02/ch02-01/pom.xml" />
         <option value="$PROJECT_DIR$/chapitre02/ch02/ch02-01/01-ProductWeb/pom.xml" />
+        <option value="$PROJECT_DIR$/chapitre02/ch02/ch02-02/pom.xml" />
+        <option value="$PROJECT_DIR$/chapitre02/ch02/ch02-02/01-ProductServer/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
