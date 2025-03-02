@@ -14,11 +14,15 @@
         <option value="$PROJECT_DIR$/chapitre02/ch02/ch02-01/01-ProductWeb/pom.xml" />
         <option value="$PROJECT_DIR$/chapitre02/ch02/ch02-02/pom.xml" />
         <option value="$PROJECT_DIR$/chapitre02/ch02/ch02-02/01-ProductServer/pom.xml" />
+        <option value="$PROJECT_DIR$/chapitre02/ch02/ch02-02/ch02-03/pom.xml" />
+        <option value="$PROJECT_DIR$/chapitre02/ch02/ch02-03/pom.xml" />
+        <option value="$PROJECT_DIR$/chapitre02/ch02/ch02-03/01-ProductServer/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/ch01-01/pom.xml" />
+        <option value="$PROJECT_DIR$/chapitre02/ch02/ch02-02/ch02-03/pom.xml" />
       </set>
     </option>
   </component>
