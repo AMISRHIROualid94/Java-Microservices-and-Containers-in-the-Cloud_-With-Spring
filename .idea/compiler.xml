@@ -27,7 +27,6 @@
         </processorPath>
         <module name="productserver (1)" />
         <module name="productWeb" />
-        <module name="productserver (2)" />
         <module name="productserver" />
         <module name="productweb (2)" />
       </profile>
@@ -39,6 +38,15 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
         </processorPath>
         <module name="productweb (3)" />
+      </profile>
+      <profile name="Annotation profile for productserver (2)" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="productserver (2)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

@@ -1,16 +1,25 @@
 package ma.oualid.productweb.controller;
 
+import ma.oualid.productweb.hateoas.model.ProductHateoas;
 import ma.oualid.productweb.model.Product;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @CrossOrigin("*")
 @RestController
@@ -19,55 +28,75 @@ public class ProductController {
     private final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
     private final RestTemplate restTemplate;
+    private final ModelMapper modelMapper;
 
     @Value("${acme.PRODUCT_SERVICE_URL}")
     private String PRODUCT_SERVICE_URL;
 
-    @GetMapping(value = "/productsweb",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<Product>> getAllProducts() {
-        LOGGER.info("Start");
-        ParameterizedTypeReference<List<Product>> responseTypeRef = new ParameterizedTypeReference<List<Product>>() {};
-        ResponseEntity<List<Product>> productList = restTemplate.exchange(PRODUCT_SERVICE_URL, HttpMethod.GET, null,responseTypeRef);
-        LOGGER.info("Ending");
-        return new ResponseEntity<>(productList.getBody(), HttpStatus.OK);
+    @RequestMapping(value = "/productsweb", method = RequestMethod.GET ,produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<CollectionModel<ProductHateoas>> getAllProducts() {
+
+        LOGGER.info("Delegating to product µ service GET");
+        ParameterizedTypeReference<List<Product>> responseTypeRef = new ParameterizedTypeReference<List<Product>>() {} ;
+        ResponseEntity<List<Product>> responseEntity = restTemplate.exchange(PRODUCT_SERVICE_URL, HttpMethod.GET, (HttpEntity<Product>) null, responseTypeRef);
+
+        Link links[] = { linkTo(methodOn(ProductController.class).getAllProducts()).withSelfRel(),
+                linkTo(methodOn(ProductController.class).getAllProducts()).withRel("getAllProducts") };
+
+        List<ProductHateoas> list = new ArrayList<ProductHateoas>();
+        for (Product product : responseEntity.getBody()) {
+            ProductHateoas productHateoas = convertEntityToHateoasEntity(product);
+            list.add(productHateoas.add(linkTo(methodOn(ProductController.class).getProduct(productHateoas.getProductId())).withSelfRel()));
+        }
+        list.forEach(item -> LOGGER.debug(item.toString()));
+        CollectionModel<ProductHateoas> result = CollectionModel.of(list, links);
+        return new ResponseEntity<CollectionModel<ProductHateoas>>(result, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/productsweb/{productId}",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Product> getProduct(@PathVariable("productId") String productId) {
-        LOGGER.info("Start");
-        LOGGER.debug("Fetching Product with id: {}", productId);
-        Product product = restTemplate.getForObject(PRODUCT_SERVICE_URL+"/"+productId,Product.class);
-        LOGGER.info("Ending");
-        return new ResponseEntity<Product>(product,HttpStatus.OK);
-    }
+    @RequestMapping(value = "/productsweb/{productId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductHateoas> getProduct(@PathVariable("productId") String productId) {
 
-    @PostMapping(value = "/productsweb",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        LOGGER.info("Start");
-        LOGGER.debug("Creating Product with id: {}", product.getProductId());
-        restTemplate.postForObject(PRODUCT_SERVICE_URL,product,Product.class);
-        LOGGER.info("Ending");
-        return new ResponseEntity<Product>(product, HttpStatus.OK);
-    }
-
-    @DeleteMapping(value = "/productsweb/{productId}",produces = {MediaType.APPLICATION_JSON_VALUE})
-    public void deleteProduct(@PathVariable("productId")String productId) {
-        LOGGER.info("Start");
-        LOGGER.debug("Fetching & Deleting Product with id: {}", productId);
-        restTemplate.delete(PRODUCT_SERVICE_URL+"/"+productId);
-        LOGGER.info("Ending");
-    }
-
-    @PutMapping(value = "/productsweb/{productId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Product> updateProduct(@PathVariable("productId")String productId, @RequestBody Product product) {
-        LOGGER.info("Start");
+        LOGGER.info("Delegating to product µ service GET");
         String uri = PRODUCT_SERVICE_URL + "/" + productId;
-        LOGGER.debug("Attempting to update Product with ID : {} ...", productId);
-        restTemplate.put(uri, product, Product.class);
-        LOGGER.debug("Product with ID : {} updated. Retreiving updated product back...", productId);
-        Product updatedProduct = restTemplate.getForObject(uri, Product.class);
-        LOGGER.info("Ending...");
-        return new ResponseEntity<Product>(updatedProduct, HttpStatus.OK);
+        Product productRetreived = restTemplate.getForObject(uri, Product.class);
+        ProductHateoas productHateoas = convertEntityToHateoasEntity(productRetreived);
+        productHateoas.add(linkTo(methodOn(ProductController.class).getProduct(productHateoas.getProductId())).withSelfRel());
+        return new ResponseEntity<ProductHateoas>(productHateoas, HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/productsweb", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductHateoas> addProduct(@RequestBody Product product, UriComponentsBuilder ucBuilder) {
+
+        LOGGER.info("Delegating  to product µ service POST");
+        Product productRecieved= restTemplate.postForObject( PRODUCT_SERVICE_URL, product, Product.class);
+        ProductHateoas productHateoas = convertEntityToHateoasEntity(productRecieved);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/products/{id}").buildAndExpand(product.getProductId()).toUri());
+        productHateoas.add(linkTo(methodOn(ProductController.class).getProduct(productHateoas.getProductId())).withSelfRel());
+        return new ResponseEntity<ProductHateoas>(productHateoas, HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/productsweb/{productId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductHateoas> deleteProduct(@PathVariable("productId")String productId) {
+        LOGGER.info("Delegating  to product µ service DELETE");
+        restTemplate.delete(PRODUCT_SERVICE_URL + "/" +productId);
+        return new ResponseEntity<ProductHateoas>(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(value = "/productsweb/{productId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductHateoas> updateProduct(@PathVariable("productId")String productId,@RequestBody Product product) {
+
+        LOGGER.info("Delegating  to product µ service PUT");
+        restTemplate.put( PRODUCT_SERVICE_URL + "/" + productId, product, Product.class);
+        ProductHateoas productHateoas = convertEntityToHateoasEntity(product);
+        productHateoas.add(linkTo(methodOn(ProductController.class).getProduct(productHateoas.getProductId())).withSelfRel());
+        return new ResponseEntity<ProductHateoas>(productHateoas, HttpStatus.OK);
+    }
+
+    private ProductHateoas convertEntityToHateoasEntity(Product product){
+        return  modelMapper.map(product,  ProductHateoas.class);
     }
 
 }
