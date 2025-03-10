@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/ch01-01/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ch01_01/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ch03-01/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/chapitre01/ch01/ch01-01/02-ProductWeb/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/chapitre01/ch01/ch01-01/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/chapitre01/ch01/ch01-01/src/main/resources" charset="UTF-8" />
@@ -20,6 +21,10 @@
     <file url="file://$PROJECT_DIR$/chapitre02/ch02/ch02-03/02-ProductWeb/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/chapitre02/ch02/ch02-03/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/chapitre02/ch02/ch02-03/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/chapitre03/ch03/ch03-01/01-ProductServer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/chapitre03/ch03/ch03-01/02-ProductWeb/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/chapitre03/ch03/ch03-01/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/chapitre03/ch03/ch03-01/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/chapitre_01/ch01_01/product-web/src/main/java" charset="UTF-8" />
   </component>
 </project>
